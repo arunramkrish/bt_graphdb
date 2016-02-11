@@ -1,0 +1,12 @@
+{"id":0,"label":"person","outE":{"Friend":[{"id":13,"inV":3}]},"properties":{"name":[{"id":1,"value":"Person 0"}]}}
+{"id":1,"label":"person","outE":{"Relative":[{"id":14,"inV":4}]},"properties":{"name":[{"id":2,"value":"Person 1"}]}}
+{"id":2,"label":"person","outE":{"Coworker":[{"id":15,"inV":5}]},"properties":{"name":[{"id":3,"value":"Person 2"}]}}
+{"id":3,"label":"person","inE":{"Friend":[{"id":13,"outV":0}]},"outE":{"Friend":[{"id":16,"inV":6}]},"properties":{"name":[{"id":0,"value":"ModifiedPerson 3"}]}}
+{"id":4,"label":"person","inE":{"Relative":[{"id":14,"outV":1}]},"outE":{"Relative":[{"id":17,"inV":7}]},"properties":{"name":[{"id":5,"value":"Person 4"}]}}
+{"id":5,"label":"person","inE":{"Coworker":[{"id":15,"outV":2}]},"outE":{"Coworker":[{"id":18,"inV":8}]},"properties":{"name":[{"id":6,"value":"Person 5"}]}}
+{"id":6,"label":"person","inE":{"Friend":[{"id":16,"outV":3}]},"outE":{"Friend":[{"id":19,"inV":9}]},"properties":{"name":[{"id":7,"value":"Person 6"}]}}
+{"id":7,"label":"person","inE":{"Relative":[{"id":17,"outV":4}]},"outE":{"Relative":[{"id":20,"inV":10}]},"properties":{"name":[{"id":8,"value":"Person 7"}]}}
+{"id":8,"label":"person","inE":{"Coworker":[{"id":18,"outV":5}]},"outE":{"Coworker":[{"id":21,"inV":11}]},"properties":{"name":[{"id":9,"value":"Person 8"}]}}
+{"id":9,"label":"person","inE":{"Friend":[{"id":19,"outV":6}]},"properties":{"name":[{"id":10,"value":"Person 9"}]}}
+{"id":10,"label":"person","inE":{"Relative":[{"id":20,"outV":7}]},"properties":{"name":[{"id":11,"value":"Person 10"}]}}
+{"id":11,"label":"person","inE":{"Coworker":[{"id":21,"outV":8}]},"properties":{"name":[{"id":12,"value":"Person 11"}]}}

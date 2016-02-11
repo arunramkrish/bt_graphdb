@@ -1,0 +1,24 @@
+Gephi setup instructions
+1. Download Gephi 0.8.2-beta from https://github.com/gephi/gephi/releases/tag/v0.8.2
+2. Download Graph Streamng plugin for version 0.8.2 from https://marketplace.gephi.org/plugin/graph-streaming/
+3. Install Gephi downloaded from step 1 in dir => GEPHI_HOME
+4. Specify JDK_HOME in %GEPHI_HOME%/etc/gephi.conf
+4.a Either JDK 1.7 or 1.6 should be specified. Doesn't work with jdk 1.8
+4.b After editing it should be 
+jdkhome="E:/Programs/Java/jdk1.7.0_25"
+5. Run gephi.exe / gephi64.exe as administrator
+6. Extract Graph Streaming plugin downloaded in Step 2 as zip file to dir => PLUGIN_DIR
+7. In Gephi window, Go to Tools -> Plugins -> Downloaded tab. Select "Add Plugins.."
+8. Select all .nbm files present in <PLUGIN_DIR>
+9. Install plugin
+10. Select "File" -> New Project
+11. Under Streaming tab, right click on "Master Server" and select "Start". Now it listens on port 8080 for graph data to come
+12. Open Gremlin console, run ":load e:/northwind.groovy" 
+(Note you can obtain this from http://sql2gremlin.com/ also download the kryo file mentioned in the URL within this groovy file. Modify this .groovy file to point to .kryo file downloaded)
+13. Load northwind graph by running "graph = NorthwindFactory.createGraph()"
+14.From Gremlin console, run ":plugin use tinkerpop.gephi"
+15. Connect to gephi streaming server from gremlin console, ":remote connect tinkerpop.gephi"
+16. Dump graph to streaming server ":> graph"
+17. You can see gephi downloading the nodes and edges
+18. Play with Gephi -> Change ranking, layout, preview, data laboratory
+
