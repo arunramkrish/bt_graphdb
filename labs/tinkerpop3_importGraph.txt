@@ -1,0 +1,13 @@
+//import a file graphson / graphml / kryo
+graph = TinkerGraph.open()
+graph.io(IoCore.graphson()).readGraph("E:/peopledb.json")
+
+g = graph.traversal()
+g.V().values("name")
+g.V(0).out('Friend')
+g.V(0).repeat(out('Friend')).times(2)
+g.V(3).both('Friend')
+
+
+//to look at all databases and their ranks http://db-engines.com/en/ranking
+
