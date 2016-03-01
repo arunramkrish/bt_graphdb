@@ -1,0 +1,7 @@
+//to use orient graph
+:install com.michaelpollmeier orientdb-gremlin 3.1.0-incubating.1-SNAPSHOT
+import org.apache.tinkerpop.gremlin.orientdb.OrientGraphFactory
+ogf = new  OrientGraphFactory("remote:localhost/GratefulDeadConcerts","root", "root")
+graph = ogf.getNoTx(false, true)
+g = graph.traversal()
+graph.addVertex(label,"song","name","why this")
