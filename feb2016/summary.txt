@@ -1,0 +1,87 @@
+Day 1 - Session 1
+
+[From Slide - 1_0_NoSQL.pptx]
+1. Need for NoSQL (Example of different actions one do in facebook)
+2. Catalog of NoSQL databases - Key/Value, Columnar, Document, Graph
+2.a Pros and cons of each NoSQL category, when to use and when not to use
+[From document - 1_21_ColumnDatabaseVsRowDatabase.pdf]
+2.b Columnar database vs Row-Relational DB
+
+[From Slide - 1_1_DocumentDatabases.ppt]
+3. Document database in detail
+
+[From Slide - 2_OrientDB.pptx]
+4. OrientDB introduction 
+5. Setup 
+
+--Connect to server
+connect remote:localhost:2424 root root
+
+--Create db from console
+--Alternatively, Create db from login screen of web console
+create database remote:localhost:2424/testdb root root plocal DOCUMENT;
+
+-- Connect db from console
+connect remote:localhost:2424/northwind root root
+
+create class region
+--to list classes
+classes
+--to list clusters
+clusters
+insert into region (name, country) values ('Bangalore', 'India')
+select from region
+--create properties for constraints
+create property region.name string
+ 
+-- type conversion during insert
+insert into region (name, country) values (123, 'India')
+
+-- type conversion error due to wrong format
+create property region.rank integer
+--following will throw an error
+insert into region (name, country,zipcode,rank) values ('Bangalore', 'India','560047','gldfgjerihlj')
+
+-- to show list of properties in a class
+desc region
+
+-- when you add a property to class when documents in that class already have a value for the same field name
+-- orientdb checks if that values present in the documents for the field conform to the schema. Throws an error if it doesnt
+create property region.country string
+
+-- to create an index on a property in a class 
+-- remember this can be done only on a property defined on a class 
+-- so schema is required to create an index
+create index region.country NOTUNIQUE
+
+-- to delete a property not defined in schema
+update Customer remove livesin  
+
+-- to delete a property defined in schema. This will not delete property from documents
+drop property region.rank
+
+-- delete records / documents based on record id. # prefix is optional
+delete from region where @RID=#12:2 or @RID=12:3
+
+--add field to existing documents
+update Customer set reg_name = 'Bangalore'
+
+--if you have imported records from database where foreign key values are already present in rows, then create a link based on these values. following command will create a new property "livesin" of type LINK
+create link livesin type link from Customer.reg_name to region.name
+
+--to find references to a record
+select expand(referredBy) from (find references #12:0)
+
+--Instead of creating a link based on existing values, create a link in the schema
+create property Customer.region LINK region
+
+--update document with link property
+update Customer set region=#12:0
+
+--to create an embedded property (instead of a link) in a class
+--You should already have the class called Address
+--Use EMBEDDEDLIST in case customer can have multiple address
+create property Customer.address EMBEDDED Address
+
+--Insert document 
+insert into Customer set name='British Telecom', reg_name='Calcutta', address={line1:'fsgrg',city:'Erode',zipcode:560047}
