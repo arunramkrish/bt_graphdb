@@ -85,3 +85,58 @@ create property Customer.address EMBEDDED Address
 
 --Insert document 
 insert into Customer set name='British Telecom', reg_name='Calcutta', address={line1:'fsgrg',city:'Erode',zipcode:560047}
+-----------------------------------------------------------------------------------------
+--- Northwind database
+create class region
+create class customer
+create class country
+create class employee
+create class order
+create class item
+create class product
+create class category
+
+create property region.code string
+create property region.details string
+
+create property country.code string
+create property country.name string
+
+create property customer.id string
+create property customer.name string
+create property customer.livesInRegion link region
+create property customer.livesInCountry link country
+
+create property employee.id string
+create property employee.name string
+create property employee.reportsTo link employee
+
+create property order.orderNo string
+create property order.orderDate date
+
+create property category.id string
+create property category.name string
+
+create property product.id string
+create property product.name string
+create property product.inCategory link category
+create property product.price float
+
+create property item.quantity integer
+create property item.sno integer
+create property item.is link product
+create property item.price float
+
+create property order.contains linkset item
+
+insert into country set code ="IN", name="India"
+insert into region set code="KA", name="Karnataka"
+insert into region set code="TN", name="TamilNadu"
+
+insert into customer set id="BT", name="BritishTelecom", livesInRegion=#9:0, livesInCountry=#11:0
+insert into customer set id="TCS", name="TataCons Services", livesInRegion=#9:1, livesInCountry=#11:0
+
+insert into employee set id="1000000", name="Krish"
+insert into employee set id="1000001", name="Arun", reportsTo=#12:0
+insert into employee set id="1000002", name="Ram", reportsTo=#12:0
+
