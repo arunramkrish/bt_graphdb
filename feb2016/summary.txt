@@ -199,5 +199,38 @@ insert into employee set id="1000002", name="Ram"
 insert into employee set id="1000003", name="Abhi"
 create edge reportsTo from (select from employee where id<>"1000000") to (select from employee where id="1000000") 
 
+create vertex category set categoryId="mobile", name="mobile phones"
+create vertex category set categoryId="smartPhone", name="smart phone"
+
+create vertex product set prodId="MOB001", name="Nokia 2210"
+create vertex product set prodId="MOB002", name="Samsung"
+
+create class inCategory extends E
+create edge inCategory from (select from product where prodId="MOB001") to (select from category where categoryId="mobile") 
+create edge inCategory from (select from product where prodId="MOB002") to (select from category where categoryId="smartPhone") 
+
+create vertex item set sno=1, price=100, quantity=2
+create vertex item set sno=2, price=1000, quantity=1
+create class itemIs extends E
+create edge itemIs from (select from item where sno=1) to (select from product where prodId="MOB001")
+create edge itemIs from (select from item where sno=2) to (select from product where prodId="MOB002")
+
+create vertex order set orderNo="M0001", orderDate="2016-03-03 00:00:00"
+create class ordered extends E
+create class orderDetails extends E
+create class sold extends E
+create edge ordered from (select from customer where id="BT") to (select from order where orderNo="M0001")
+create edge orderDetails from (select from order where orderNo="M0001") to (select from item)
+create edge sold from (select from employee where id="1000002") to (select from order)
+
+--by default orientdb doesnt allow to create a property with name "id" as it internally uses Tinkerpop API which puts the constraint. one can disable it with following command.
+
+alter database custom standardElementConstraints=false
+-- you can disable it on the OrientGraph or on OrientGraphFactory setting setStandardElementConstraints(false)
+
 Youtube reference video on OrientDB along with detailed blog
 https://www.youtube.com/watch?v=X-pXqvVTK6E
+
+TODO 
+1. When the property is an array, what is the value shown in square brackets [1], [2]
+2. refering to document as part of insert to link them
