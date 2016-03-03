@@ -127,7 +127,7 @@ create property item.sno integer
 create property item.is link product
 create property item.price float
 
-create property order.contains linkset item
+create property order.lineitems linkset item
 
 insert into country set code ="IN", name="India"
 insert into region set code="KA", name="Karnataka"
@@ -139,4 +139,65 @@ insert into customer set id="TCS", name="TataCons Services", livesInRegion=#9:1,
 insert into employee set id="1000000", name="Krish"
 insert into employee set id="1000001", name="Arun", reportsTo=#12:0
 insert into employee set id="1000002", name="Ram", reportsTo=#12:0
+insert into employee set id="1000003", name="Abhi"
+update employee set reportsTo=(select @RID from employee where id="1000000") where id="1000003"
 
+
+-----
+create class region extends V
+create class customer extends V
+create class country extends V
+create class employee extends V
+create class order extends V
+create class item extends V
+create class product extends V
+create class category extends V
+
+create class livesInRegion extends E
+create class livesInCountry extends E
+
+create property region.code string
+create property region.details string
+
+create property country.code string
+create property country.name string
+
+create property customer.id string
+create property customer.name string
+
+insert into country set code ="IN", name="India"
+insert into region set code="KA", name="Karnataka"
+insert into region set code="TN", name="TamilNadu"
+
+insert into customer set id="BT", name="BritishTelecom"
+create edge livesInRegion from (select from customer where id="BT") to (select from region where code="KA") set since=2011
+
+insert into customer set id="TCS", name="TataCons Services"
+create edge livesInRegion from (select from customer where id="TCS") to (select from region where code="TN") set since=2000
+create edge livesInCountry from (select from customer) to (select from country where code="IN")
+
+create property employee.id string
+create property employee.name string
+
+create property order.orderNo string
+create property order.orderDate date
+
+create property category.id string
+create property category.name string
+
+create property product.id string
+create property product.name string
+create property product.price float
+
+create property item.quantity integer
+create property item.sno integer
+create property item.price float
+
+insert into employee set id="1000000", name="Krish"
+insert into employee set id="1000001", name="Arun"
+insert into employee set id="1000002", name="Ram"
+insert into employee set id="1000003", name="Abhi"
+create edge reportsTo from (select from employee where id<>"1000000") to (select from employee where id="1000000") 
+
+Youtube reference video on OrientDB along with detailed blog
+https://www.youtube.com/watch?v=X-pXqvVTK6E
