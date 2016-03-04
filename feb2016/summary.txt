@@ -1,5 +1,5 @@
-Day 1 - Session 1
-
+-----------------------------------------------------------------------------------------
+---------------------------------------Day 1 ----------------------------------------------
 [From Slide - 1_0_NoSQL.pptx]
 1. Need for NoSQL (Example of different actions one do in facebook)
 2. Catalog of NoSQL databases - Key/Value, Columnar, Document, Graph
@@ -86,7 +86,9 @@ create property Customer.address EMBEDDED Address
 --Insert document 
 insert into Customer set name='British Telecom', reg_name='Calcutta', address={line1:'fsgrg',city:'Erode',zipcode:560047}
 -----------------------------------------------------------------------------------------
---- Northwind database
+---------------------------------------Day 2 ----------------------------------------------
+--OrientDB document model Case study: Northwind database using SQL interface of OrientdB
+
 create class region
 create class customer
 create class country
@@ -142,8 +144,18 @@ insert into employee set id="1000002", name="Ram", reportsTo=#12:0
 insert into employee set id="1000003", name="Abhi"
 update employee set reportsTo=(select @RID from employee where id="1000000") where id="1000003"
 
+-- Implement the remaining set of classes and documents viz. product, category, item, order and their links through Java API of OrientDB
+1. Create a maven project with orientdb-client dependency
+2. Refer to hands-on project class App (creating product and category and their relationships), AppOrders  (creating Line items and orders)
+3. Then executing SQL queries to fetch and iterate through documents and properties. Also prepared statement passing named parameters
 
------
+-------- GRAPH DATABASES
+1. Understand basic concepts in graph databases. Why graph databases, what are the applications of graph databases. Refer to slides in 3_ApacheCon2015TinkerPop3.pdf until 2 section that details Tinkerpop3
+
+2. Overview of OrientDB Graph model using SQL interface
+
+3. OrientDB Graph model Case study: Northwind database using SQL interface of OrientdB
+
 create class region extends V
 create class customer extends V
 create class country extends V
@@ -176,6 +188,10 @@ insert into customer set id="TCS", name="TataCons Services"
 create edge livesInRegion from (select from customer where id="TCS") to (select from region where code="TN") set since=2000
 create edge livesInCountry from (select from customer) to (select from country where code="IN")
 
+-----------------------------------------------------------------------------------------
+---------------------------------------Day 3 ----------------------------------------------
+--------- Continuation of case study using orientdb graph model
+
 create property employee.id string
 create property employee.name string
 
@@ -206,6 +222,9 @@ create vertex product set prodId="MOB001", name="Nokia 2210"
 create vertex product set prodId="MOB002", name="Samsung"
 
 create class inCategory extends E
+create property inCategory.in LINK category
+create property inCategory.out LINK product
+
 create edge inCategory from (select from product where prodId="MOB001") to (select from category where categoryId="mobile") 
 create edge inCategory from (select from product where prodId="MOB002") to (select from category where categoryId="smartPhone") 
 
@@ -223,6 +242,15 @@ create edge ordered from (select from customer where id="BT") to (select from or
 create edge orderDetails from (select from order where orderNo="M0001") to (select from item)
 create edge sold from (select from employee where id="1000002") to (select from order)
 
+--- Overview of OrientDB hooks and event listener. How to write hooks to log details in document to a file system
+
+------------------------- Graph Traversals using OrientDB SQL interface for graphs
+--To find out products ordered by a customer
+select expand(out("ordered").out("orderDetails").out("itemIs")) from customer where  id="BT"
+
+--To find out customeres who have ordered a product
+select expand(in("itemIs").in("orderDetails").in ("ordered")) from product where prodId="MOB002"
+
 --by default orientdb doesnt allow to create a property with name "id" as it internally uses Tinkerpop API which puts the constraint. one can disable it with following command.
 
 alter database custom standardElementConstraints=false
@@ -231,6 +259,92 @@ alter database custom standardElementConstraints=false
 Youtube reference video on OrientDB along with detailed blog
 https://www.youtube.com/watch?v=X-pXqvVTK6E
 
-TODO 
+Questions
 1. When the property is an array, what is the value shown in square brackets [1], [2]
+[Ans:] Whatever is shown in the square brackets is the size of the array / list. If the field contains 1 value then it shows it as [1]. If the field contains 2 values then it shows as [2]. Consider following example
+
+create class parent
+create class child
+create property parent.name string
+create property child.name string
+create property parent.children LINKSET child
+insert into child set name='A'
+insert into child set name='B'
+insert into child set name='C'
+create property parent.skills embeddedset string
+insert into parent set name='P1', skills=['java','javascript','android'], children=[#29:0, #29:1, #29:2]
+
+====> select from parent
+this should have [3], [3] for both skills and children properties
+
+insert into parent set name='P2', skills=['java','javascript'], children=[#29:0, #29:1]
+====> select from parent
+this should have [2], [2] for both skills and children properties
+
+insert into parent set name='P2', skills=['java','javascript'], children=[#29:0, #29:1,#29:2]
+====> select from parent
+this should have [2], [3] respectively for skills and children
+
 2. refering to document as part of insert to link them
+[Ans:] Insert supports subqueries through which you can assign values from other document to fields in the new document. For this scenario, let us consider the following example based on the above example. This command inserts children links from an existing parent document.
+
+insert into parent set name='P4', skills=(select skills from parent where name='P1'), children=(select children from parent where name='P1')
+
+3. Restrictions on edges start / end type
+[Ans:] In our northwind database, the edge inCategory is allowed only from product class to category class. To include this constraint / validation as part of the schema, we need to execute the following commands to create links of specific types.
+
+create property inCategory.in LINK category
+create property inCategory.out LINK product
+
+-----------------------------------------------------------------------
+1. Overview of Tinkerpop3 API, various components and their roles- Refer to slides in 3_ApacheCon2015TinkerPop3.pdf from 2 nd section that details Tinkerpop3
+
+2. Gremlin shell / console - overview
+3. Overview of Groovy and Java API
+4. Overview of Gremlin structure - creation of vertex and edges and querying them
+
+graph = TinkerGraph.open()
+gremlin = graph.addVertex(label,'software','name','gremlin')
+gremlin.property('created',2009)
+blueprints = graph.addVertex(label,'software','name','blueprints')
+gremlin.addEdge('dependsOn',blueprints)
+blueprints.property('created',2010)
+blueprints.property('created').remove()
+gremlin.addEdge('encapsulates',blueprints)
+blueprints.remove()
+gremlin.remove()
+
+5. Overview of Gremlin Process / traversal, creating traversal source 
+graph=TinkerGraph.open()
+c1=graph.addVertex(label, 'country', 'code','IN','name','India')
+r1=graph.addVertex(label, 'region', 'code','KA','name','Bangalore')
+r2=graph.addVertex(label, 'region', 'code','TN','name','Chennai')
+customer1=graph.addVertex(label, 'customer', 'cusId','BT','name','British Telecom')
+order = graph.addVertex(label,'order','orderNo',1,'orderDate','2016-03-03')
+customer1.addEdge('livesInCountry', c1)
+customer1.addEdge('livesInRegion', r1)
+customer1.addEdge('ordered', order)
+
+--create traversal source
+g=graph.traversal(standard())
+
+-- create traverser either by using g.V() or g.V(v1, v2, ....) or g.E() or g.E(e1, e2, ...)
+--Many function in traverser returns traverser thereby providing function composition
+
+-- get order number of orders placed by customers living in India
+g.V().hasLabel('country').has('code', 'IN').in('livesInCountry').out('ordered').values('orderNo')
+
+-- get complete order details of orders placed by customers living in India
+g.V().hasLabel('country').has('code', 'IN').in('livesInCountry').out('ordered').properties()
+
+6. Setting up Gephi for visualization. Refer to gephiSetup.txt
+7. Importing Northwind graphdb as mentioned in www.sql2gremlin.com
+
+----------------------------------------------------------------------------------------------------
+-------------------------------------------Day 4----------------------------------------------------
+Write plugin and bundle it as jar and place it in lib folder. Use ODocument API to make any modification. Validation and throw exception using triggers of type BEFORE*
+http://orientdb.com/docs/2.0/orientdb.wiki/Java-Hooks.html
+
+To register hooks during run time after the connection is made, use dynamic hooks. Implement an interface and register with database
+http://orientdb.com/docs/2.0/orientdb.wiki/Dynamic-Hooks.html
+
