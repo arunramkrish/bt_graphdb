@@ -24,7 +24,6 @@ public class DaoFactory {
 		((TpOrderDao)tpOrderDao).setGraph(graph);
 	
 		odb = new ODatabaseDocumentTx("remote:localhost/petshop").open("root", "root");
-		odb.set
 	}
 
 	public void shutdown() throws Exception {

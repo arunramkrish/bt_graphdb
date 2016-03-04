@@ -18,6 +18,7 @@ jdkhome="E:/Programs/Java/jdk1.7.0_25"
 13. Load northwind graph by running "graph = NorthwindFactory.createGraph()"
 14.From Gremlin console, run ":plugin use tinkerpop.gephi"
 15. Connect to gephi streaming server from gremlin console, ":remote connect tinkerpop.gephi"
+If you are running on different port use ":remote config port 8083 connect tinkerpop.gephi"
 16. Dump graph to streaming server ":> graph"
 17. You can see gephi downloading the nodes and edges
 18. Play with Gephi -> Change ranking, layout, preview, data laboratory
