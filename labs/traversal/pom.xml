@@ -2,12 +2,12 @@
 	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 
-	<groupId>com.bt.ghraphdb</groupId>
-	<artifactId>tinkerpop</artifactId>
+	<groupId>com.bt.graphdb</groupId>
+	<artifactId>traversal</artifactId>
 	<version>0.0.1-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
-	<name>tinkerpop</name>
+	<name>traversal</name>
 	<url>http://maven.apache.org</url>
 
 	<properties>
@@ -15,6 +15,12 @@
 	</properties>
 
 	<dependencies>
+		<dependency>
+			<groupId>junit</groupId>
+			<artifactId>junit</artifactId>
+			<version>3.8.1</version>
+			<scope>test</scope>
+		</dependency>
 		<dependency>
 			<groupId>org.apache.tinkerpop</groupId>
 			<artifactId>gremlin-core</artifactId>
@@ -24,25 +30,6 @@
 			<groupId>org.apache.tinkerpop</groupId>
 			<artifactId>tinkergraph-gremlin</artifactId>
 			<version>3.1.0-incubating</version>
-		</dependency>
-<!-- 		<dependency>
-			<groupId>com.michaelpollmeier</groupId>
-			<artifactId>orientdb-gremlin</artifactId>
-			<version>3.1.0-incubating.1-SNAPSHOT</version>
-		</dependency>
- -->
-		<!-- dependency to connect to gremlin server -->
-		<dependency>
-			<groupId>org.apache.tinkerpop</groupId>
-			<artifactId>gremlin-driver</artifactId>
-			<version>3.1.0-incubating</version>
-		</dependency>
-		
-		<dependency>
-			<groupId>junit</groupId>
-			<artifactId>junit</artifactId>
-			<version>3.8.1</version>
-			<scope>test</scope>
 		</dependency>
 	</dependencies>
 	<build>

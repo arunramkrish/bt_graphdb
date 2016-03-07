@@ -12,7 +12,7 @@ import com.bt.ghraphdb.tinkerpop.entity.Order;
 
 public class OrientOrderDao implements OrderDao {
 	private Graph graph;
-	
+
 	public Graph getGraph() {
 		return graph;
 	}
@@ -23,17 +23,19 @@ public class OrientOrderDao implements OrderDao {
 
 	@Override
 	public Long create(Order order) {
-		Vertex orderVtx = graph.addVertex(T.label, "order", "shipCity", order.getShipCity(), "orderDate", order.getOrderDate(), "requiredDate", order.getRequiredDate());
+		Vertex orderVtx = graph.addVertex(T.label, "order", "shipCity", order.getShipCity(), "orderDate",
+				order.getOrderDate(), "requiredDate", order.getRequiredDate());
 		for (Item item : order.getLineItems()) {
-			Vertex itemVtx = graph.addVertex(T.label, "item", "unitPrice", item.getUnitPrice(), "quantity", item.getQuantity());
+			Vertex itemVtx = graph.addVertex(T.label, "item", "unitPrice", item.getUnitPrice(), "quantity",
+					item.getQuantity());
 			orderVtx.addEdge("contains", itemVtx);
-			
+
 			Vertex prodVtx = graph.vertices(item.getProduct().getId().intValue()).next();
 			itemVtx.addEdge("is", prodVtx);
 		}
 		Vertex customerVtx = graph.vertices(order.getCustomer().getId()).next();
 		customerVtx.addEdge("ordered", orderVtx);
-		
+
 		return Long.parseLong(orderVtx.id().toString());
 	}
 
@@ -42,11 +44,11 @@ public class OrientOrderDao implements OrderDao {
 		Order o = new Order();
 		Vertex orderVertex = graph.vertices(id).next();
 		o.setId(Long.parseLong(orderVertex.id().toString()));
-		o.setCustomer(new Customer(Long.parseLong(orderVertex.edges(Direction.IN, 
-				"ordered").next().outVertex().id().toString())));
+		o.setCustomer(new Customer(
+				Integer.parseInt(orderVertex.edges(Direction.IN, "ordered").next().outVertex().id().toString())));
 		o.setShipCity(orderVertex.property("shipCity").toString());
-		
-		//TODO load line Items
+
+		// TODO load line Items
 		return o;
 	}
 

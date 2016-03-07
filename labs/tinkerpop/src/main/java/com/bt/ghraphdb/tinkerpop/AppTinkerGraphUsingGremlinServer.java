@@ -12,8 +12,9 @@ public class AppTinkerGraphUsingGremlinServer {
 	public static void main(String[] args) throws Exception {
 		Cluster cluster = Cluster.open("remote.yaml");
 		Client client = cluster.connect();
-		ResultSet results = client.submit("[1,2,3,4]");
-		System.out.println(results.stream().map(i -> i.get(Integer.class) * 2));
+		ResultSet results = client.submit("graph");
+		
+		//check the results
 		
 		client.close();
 		cluster.close();

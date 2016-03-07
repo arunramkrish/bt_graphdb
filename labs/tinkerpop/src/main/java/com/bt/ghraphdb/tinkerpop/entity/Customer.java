@@ -1,18 +1,18 @@
 package com.bt.ghraphdb.tinkerpop.entity;
 
 public class Customer {
-	private Long id;
+	private Integer id;
 
-	public Customer(Long id) {
+	public Customer(Integer id) {
 		super();
 		this.id = id;
 	}
 
-	public Long getId() {
+	public Integer getId() {
 		return id;
 	}
 
-	public void setId(Long id) {
+	public void setId(Integer id) {
 		this.id = id;
 	}
 	

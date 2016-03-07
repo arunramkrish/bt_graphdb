@@ -1,6 +1,6 @@
 package com.bt.ghraphdb.tinkerpop;
 
-import org.apache.tinkerpop.gremlin.orientdb.OrientGraphFactory;
+//import org.apache.tinkerpop.gremlin.orientdb.OrientGraphFactory;
 import org.apache.tinkerpop.gremlin.structure.Graph;
 import org.apache.tinkerpop.gremlin.structure.T;
 import org.apache.tinkerpop.gremlin.structure.Vertex;
@@ -12,6 +12,7 @@ import org.apache.tinkerpop.gremlin.util.iterator.IteratorUtils;
  */
 public class AppOrientDb 
 {
+	/*
     public static void main( String[] args )
     {
         System.out.println( "Hello World!" );
@@ -38,5 +39,5 @@ public class AppOrientDb
         peter.addEdge("created", lop, "weight", 0.2f);
 
         System.out.println(IteratorUtils.count(graph.vertices()));
-    }
+    }*/
 }

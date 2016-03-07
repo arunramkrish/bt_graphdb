@@ -45,7 +45,7 @@ public class TpOrderDaoTest {
 	@Test
 	public void test() {
 		Order order = new Order();
-		Customer customer = new Customer(8L);
+		Customer customer = new Customer(8);
 		order.setCustomer(customer);
 		order.setShipCity("Bangalore");
 		order.setOrderDate(new Date());
@@ -61,7 +61,7 @@ public class TpOrderDaoTest {
 
 		Order orderInDb = orderDao.get(orderId);
 
-		assertEquals("customer id not matching", 8L, orderInDb.getCustomer().getId().longValue());
+		assertEquals("customer id not matching", 8, orderInDb.getCustomer().getId().longValue());
 	}
 
 }
