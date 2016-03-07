@@ -341,10 +341,34 @@ g.V().hasLabel('country').has('code', 'IN').in('livesInCountry').out('ordered').
 7. Importing Northwind graphdb as mentioned in www.sql2gremlin.com
 
 ----------------------------------------------------------------------------------------------------
--------------------------------------------Day 4----------------------------------------------------
+-------------------------------------------Day4----------------------------------------------------
 Write plugin and bundle it as jar and place it in lib folder. Use ODocument API to make any modification. Validation and throw exception using triggers of type BEFORE*
 http://orientdb.com/docs/2.0/orientdb.wiki/Java-Hooks.html
 
 To register hooks during run time after the connection is made, use dynamic hooks. Implement an interface and register with database
 http://orientdb.com/docs/2.0/orientdb.wiki/Dynamic-Hooks.html
 
+Tinkerpop3 - Java API overview
+1. Import maven project labs/tinkerpop. 
+If you want to use orientdb with tinkerpop3, the development is 
+Remove dependency on orientdb and the source code dependent on orientdb. 
+
+To integrate Tinkerpop3 with orientdb - use SNAPSHOT version from github. This supports only gremlin structure.
+https://github.com/mpollmeier/orientdb-gremlin
+
+2. Understand gremlin structure - to add, update, delete, find by id - the graph elements - Vertex and Edge
+
+3. Understand gremlin process - traversal. Understand different types of steps - map, branch, filter, flatmap, sideeffect. Go through Java API for each one of them using Lambda expression.
+
+4. Hands-on with a suite of steps in different categories given as part of Tinkerpop3 library. Refer to labs/traversal project.
+
+5. Compare and contrast traversal in RDBMS using joins and BTrees with graph traversal. Refer to whitepaper guides/Gremlin_Rodriguez.pdf
+
+6. Walkthrough of traversals prsented in sql2gremlin.com
+
+Walkthrough of traversal example using Java API presented in
+http://www.programcreek.com/java-api-examples/index.php?api=org.apache.tinkerpop.gremlin.process.traversal.dsl.graph.GraphTraversal
+
+7. Overview of Gremlin server, how to setup an initializing groovy script to bootstrap the server with graph db. Connecting to gremlin server from console as well as from the program using Cluster API. Setting up client side configuration through yaml file. Using JSON to integrate with Gremlin server.
+
+8. Overview of fetching strategies in orient db. Different patterns to be used to specify fetching strategy - the levels, depth, field set. How to specify custom fetch plan as part of user query in Java API.
